@@ -62,35 +62,37 @@ document.addEventListener("DOMContentLoaded", function () {
     completeBookshelfList.innerHTML = "";
 
     for (const book of books) {
-      const bookElement = makeBookElement(book);
+      const bookElement = makeBook(book);
       if (!book.isComplete) incompleteBookshelfList.appendChild(bookElement);
       else completeBookshelfList.appendChild(bookElement);
     }
   });
 
-  function makeBookElement(bookObject) {
+  function makeBook(bookObject) {
     const bookTitle = document.createElement("h3");
     bookTitle.innerText = bookObject.title;
 
-    const bookAuthor = document.createElement("p");
-    bookAuthor.innerText = bookObject.author;
+    const author = document.createElement("p");
+    author.innerText = "Nama Penulis: " + bookObject.author;
 
-    const bookYear = document.createElement("p");
-    bookYear.innerText = bookObject.year;
+    const year = document.createElement("p");
+    year.innerText = "Tahun: " + bookObject.year;
 
-    const textContainer = document.createElement("div");
-    textContainer.classList.add("book_item");
-    textContainer.appendChild(bookTitle, bookAuthor, bookYear);
+    const bookItem = document.createElement("article");
+    bookItem.classList.add("book_item");
+    bookItem.appendChild(bookTitle);
+    bookItem.appendChild(author);
+    bookItem.appendChild(year);
 
     const container = document.createElement("div");
     container.classList.add("book_item");
-    container.append(textContainer);
+    container.appendChild(bookItem);
     container.setAttribute("id", `${bookObject.id}`);
 
     if (bookObject.isComplete) {
       const undoButton = document.createElement("button");
       undoButton.classList.add("green");
-      undoButton.innerText = "Belum selesai";
+      undoButton.innerText = "Belum selesai di Baca";
 
       const trashButton = document.createElement("button");
       trashButton.classList.add("red");
@@ -111,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       const checkButton = document.createElement("button");
       checkButton.classList.add("green");
-      checkButton.innerText = "Selesai";
+      checkButton.innerText = "Selesai dibaca";
 
       const trashButton = document.createElement("button");
       trashButton.classList.add("red");
@@ -168,9 +170,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Mencari Buku berdasarkan Id Buku
   function findBook(bookId) {
-    for (const bookItem of books) {
-      if (bookItem.id === bookId) {
-        return bookItem;
+    for (const book of books) {
+      if (book.id === bookId) {
+        return book;
       }
     }
 
@@ -198,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     completedBookList.innerHTML = "";
 
     for (const book of filteredBooks) {
-      const bookElement = makeBookElement(book);
+      const bookElement = makeBook(book);
       if (!book.isComplete) {
         uncompletedBookList.append(bookElement);
       } else {
